@@ -5,6 +5,7 @@ __pycache__/
 
 sample-even
 sample-equal
+sample-divisible
 *.o
 
 # C extensions

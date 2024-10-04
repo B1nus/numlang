@@ -2,9 +2,9 @@ section .data
 	number dq 0
 	text0 db "READ: "
 	len0 equ $ - text0
-	text1 db "odd",10
+	text1 db "Is not divisible by 3",10
 	len1 equ $ - text1
-	text2 db "even",10
+	text2 db "Is divisble by 3",10
 	len2 equ $ - text2
 
 section .bss
@@ -30,14 +30,16 @@ _start:
 	push rbx
 ; -- JUMP.EQ.0 --
 	cmp qword [rsp], 0
-	je L1
-; -- JUMP.GT.O --
+	je DIVISIBLE
+; -- JUMP.GT.0 --
+	cmp qword [rsp], 0
+	jg LOOP
 ; -- JUMP --
-	jmp make_positive
+	jmp MAKE_POSITIVE
 ; -- LABEL --
 LOOP:
 ; -- PUSH --
-	push 2
+	push 3
 ; -- SUB --
 	pop rax
 	pop rbx
@@ -45,7 +47,7 @@ LOOP:
 	push rbx
 ; -- JUMP.EQ.0 --
 	cmp qword [rsp], 0
-	je L1
+	je DIVISIBLE
 ; -- JUMP.GT.0 --
 	cmp qword [rsp], 0
 	jg LOOP
@@ -61,7 +63,7 @@ LOOP:
 	syscall
 
 ; -- LABEL --
-L1:
+DIVISIBLE:
 ; -- PRINT --
 	mov rax, 1
 	mov rdi, 1
@@ -74,9 +76,9 @@ L1:
 	syscall
 
 ; -- LABEL --
-make_positive:
+MAKE_POSITIVE:
 ; -- PUSH --
-	push 2
+	push 3
 ; -- ADD --
 	pop rax
 	pop rbx
@@ -86,7 +88,7 @@ make_positive:
 	cmp qword [rsp], 0
 	jg LOOP
 ; -- JUMP --
-	jmp make_positive
+	jmp MAKE_POSITIVE
 _conversion_loop:
 	mov rbx, 0
 	mov rdi, read

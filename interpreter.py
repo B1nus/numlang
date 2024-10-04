@@ -30,6 +30,9 @@ def evaluate(statements, labels, stack_size=10):
                 if stack[-1] > 0:
                     statement_pointer = labels[statement[1]]
                     continue
+            case "JUMP":
+                statement_pointer = labels[statement[1]]
+                continue
 
         statement_pointer += 1
 

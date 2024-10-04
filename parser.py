@@ -7,13 +7,15 @@ def parse(tokens):
     statements = []
     labels = {}
     for token_id, token in enumerate(tokens):
-        opcode = token[0]
-
-        if opcode.endswith(":"):
-            label = opcode[:-1]
+        label = token[0]
+        if label.endswith(":"):
+            label = label[:-1]
             labels[label] = len(statements)
             statements.append(("LABEL", label))
             continue
+
+        opcode = token[0]
+        opcode = opcode.upper()
 
         match opcode:
             case "PUSH":
@@ -21,9 +23,7 @@ def parse(tokens):
                 statements.append((opcode, number))
             case "PRINT":
                 statements.append((opcode, ' '.join(token[1:])))
-            case "JUMP.EQ.0":
-                statements.append((opcode, token[1]))
-            case "JUMP.GT.0":
+            case opcode if opcode in {"JUMP.EQ.0", "JUMP.GT.0", "JUMP"}:
                 statements.append((opcode, token[1]))
             case _:
                 statements.append((opcode,))

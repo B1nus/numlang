@@ -88,6 +88,8 @@ def compile(statements, labels, outpath):
                 _start.append("\tcmp qword [rsp], 0\n\tje {}".format(statement[1]))
             case "JUMP.GT.0":
                 _start.append("\tcmp qword [rsp], 0\n\tjg {}".format(statement[1]))
+            case "JUMP":
+                _start.append("\tjmp {}".format(statement[1]))
             case "LABEL":
                 _start.append("{}:".format(statement[1]))
 
